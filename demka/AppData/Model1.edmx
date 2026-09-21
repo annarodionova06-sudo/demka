@@ -1,0 +1,682 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище demkaModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="categorys">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="category" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="orders">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="number_order" Type="float" />
+          <Property Name="date_order" Type="date" />
+          <Property Name="id_user" Type="int" />
+        </EntityType>
+        <EntityType Name="orders_main">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_order" Type="int" />
+          <Property Name="quantity" Type="float" />
+          <Property Name="price" Type="float" />
+          <Property Name="id_stock_items" Type="int" />
+        </EntityType>
+        <EntityType Name="productions">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="production" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="products">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name_product" Type="nvarchar" MaxLength="255" />
+          <Property Name="id_categore" Type="int" />
+          <Property Name="id_subcategory" Type="int" />
+          <Property Name="image" Type="nvarchar" MaxLength="255" />
+          <Property Name="id_production" Type="int" />
+          <Property Name="description" Type="nvarchar" MaxLength="255" />
+          <Property Name="composition" Type="nvarchar" MaxLength="255" />
+          <Property Name="price" Type="float" />
+        </EntityType>
+        <EntityType Name="roles">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="role" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="sizes">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="size" Type="float" />
+        </EntityType>
+        <EntityType Name="stock_items">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_product" Type="int" />
+          <Property Name="id_production" Type="int" />
+          <Property Name="id_size" Type="int" />
+          <Property Name="quantity_for_order" Type="float" />
+        </EntityType>
+        <EntityType Name="subcategorys">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="subcategory" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="surname" Type="nvarchar" MaxLength="255" />
+          <Property Name="name" Type="nvarchar" MaxLength="255" />
+          <Property Name="patronymic" Type="nvarchar" MaxLength="255" />
+          <Property Name="login" Type="nvarchar" MaxLength="255" />
+          <Property Name="id_role" Type="int" />
+        </EntityType>
+        <Association Name="FK_orders_main_orders">
+          <End Role="orders" Type="Self.orders" Multiplicity="0..1" />
+          <End Role="orders_main" Type="Self.orders_main" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="orders">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="orders_main">
+              <PropertyRef Name="id_order" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_orders_main_stock_items">
+          <End Role="stock_items" Type="Self.stock_items" Multiplicity="0..1" />
+          <End Role="orders_main" Type="Self.orders_main" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="stock_items">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="orders_main">
+              <PropertyRef Name="id_stock_items" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_orders_users">
+          <End Role="users" Type="Self.users" Multiplicity="0..1" />
+          <End Role="orders" Type="Self.orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="orders">
+              <PropertyRef Name="id_user" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_products_categorys">
+          <End Role="categorys" Type="Self.categorys" Multiplicity="0..1" />
+          <End Role="products" Type="Self.products" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="categorys">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="products">
+              <PropertyRef Name="id_categore" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_products_subcategorys">
+          <End Role="subcategorys" Type="Self.subcategorys" Multiplicity="0..1" />
+          <End Role="products" Type="Self.products" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="subcategorys">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="products">
+              <PropertyRef Name="id_subcategory" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_stock_items_productions">
+          <End Role="productions" Type="Self.productions" Multiplicity="0..1" />
+          <End Role="stock_items" Type="Self.stock_items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="productions">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="stock_items">
+              <PropertyRef Name="id_production" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_stock_items_products">
+          <End Role="products" Type="Self.products" Multiplicity="0..1" />
+          <End Role="stock_items" Type="Self.stock_items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="products">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="stock_items">
+              <PropertyRef Name="id_product" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_stock_items_sizes">
+          <End Role="sizes" Type="Self.sizes" Multiplicity="0..1" />
+          <End Role="stock_items" Type="Self.stock_items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sizes">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="stock_items">
+              <PropertyRef Name="id_size" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_users_roles">
+          <End Role="roles" Type="Self.roles" Multiplicity="0..1" />
+          <End Role="users" Type="Self.users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="roles">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="users">
+              <PropertyRef Name="id_role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище demkaModelContainer">
+          <EntitySet Name="categorys" EntityType="Self.categorys" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="orders" EntityType="Self.orders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="orders_main" EntityType="Self.orders_main" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="productions" EntityType="Self.productions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="products" EntityType="Self.products" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="roles" EntityType="Self.roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sizes" EntityType="Self.sizes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="stock_items" EntityType="Self.stock_items" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="subcategorys" EntityType="Self.subcategorys" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_orders_main_orders" Association="Self.FK_orders_main_orders">
+            <End Role="orders" EntitySet="orders" />
+            <End Role="orders_main" EntitySet="orders_main" />
+          </AssociationSet>
+          <AssociationSet Name="FK_orders_main_stock_items" Association="Self.FK_orders_main_stock_items">
+            <End Role="stock_items" EntitySet="stock_items" />
+            <End Role="orders_main" EntitySet="orders_main" />
+          </AssociationSet>
+          <AssociationSet Name="FK_orders_users" Association="Self.FK_orders_users">
+            <End Role="users" EntitySet="users" />
+            <End Role="orders" EntitySet="orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_products_categorys" Association="Self.FK_products_categorys">
+            <End Role="categorys" EntitySet="categorys" />
+            <End Role="products" EntitySet="products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_products_subcategorys" Association="Self.FK_products_subcategorys">
+            <End Role="subcategorys" EntitySet="subcategorys" />
+            <End Role="products" EntitySet="products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_stock_items_productions" Association="Self.FK_stock_items_productions">
+            <End Role="productions" EntitySet="productions" />
+            <End Role="stock_items" EntitySet="stock_items" />
+          </AssociationSet>
+          <AssociationSet Name="FK_stock_items_products" Association="Self.FK_stock_items_products">
+            <End Role="products" EntitySet="products" />
+            <End Role="stock_items" EntitySet="stock_items" />
+          </AssociationSet>
+          <AssociationSet Name="FK_stock_items_sizes" Association="Self.FK_stock_items_sizes">
+            <End Role="sizes" EntitySet="sizes" />
+            <End Role="stock_items" EntitySet="stock_items" />
+          </AssociationSet>
+          <AssociationSet Name="FK_users_roles" Association="Self.FK_users_roles">
+            <End Role="roles" EntitySet="roles" />
+            <End Role="users" EntitySet="users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="demkaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="categorys">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="category" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="products" Relationship="Self.FK_products_categorys" FromRole="categorys" ToRole="products" />
+        </EntityType>
+        <EntityType Name="orders">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="number_order" Type="Double" />
+          <Property Name="date_order" Type="DateTime" Precision="0" />
+          <Property Name="id_user" Type="Int32" />
+          <NavigationProperty Name="orders_main" Relationship="Self.FK_orders_main_orders" FromRole="orders" ToRole="orders_main" />
+          <NavigationProperty Name="users" Relationship="Self.FK_orders_users" FromRole="orders" ToRole="users" />
+        </EntityType>
+        <EntityType Name="orders_main">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_order" Type="Int32" />
+          <Property Name="quantity" Type="Double" />
+          <Property Name="price" Type="Double" />
+          <Property Name="id_stock_items" Type="Int32" />
+          <NavigationProperty Name="orders" Relationship="Self.FK_orders_main_orders" FromRole="orders_main" ToRole="orders" />
+          <NavigationProperty Name="stock_items" Relationship="Self.FK_orders_main_stock_items" FromRole="orders_main" ToRole="stock_items" />
+        </EntityType>
+        <EntityType Name="productions">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="production" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="stock_items" Relationship="Self.FK_stock_items_productions" FromRole="productions" ToRole="stock_items" />
+        </EntityType>
+        <EntityType Name="products">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name_product" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="id_categore" Type="Int32" />
+          <Property Name="id_subcategory" Type="Int32" />
+          <Property Name="image" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="id_production" Type="Int32" />
+          <Property Name="description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="composition" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="price" Type="Double" />
+          <NavigationProperty Name="categorys" Relationship="Self.FK_products_categorys" FromRole="products" ToRole="categorys" />
+          <NavigationProperty Name="subcategorys" Relationship="Self.FK_products_subcategorys" FromRole="products" ToRole="subcategorys" />
+          <NavigationProperty Name="stock_items" Relationship="Self.FK_stock_items_products" FromRole="products" ToRole="stock_items" />
+        </EntityType>
+        <EntityType Name="roles">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="role" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="users" Relationship="Self.FK_users_roles" FromRole="roles" ToRole="users" />
+        </EntityType>
+        <EntityType Name="sizes">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="size" Type="Double" />
+          <NavigationProperty Name="stock_items" Relationship="Self.FK_stock_items_sizes" FromRole="sizes" ToRole="stock_items" />
+        </EntityType>
+        <EntityType Name="stock_items">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_product" Type="Int32" />
+          <Property Name="id_production" Type="Int32" />
+          <Property Name="id_size" Type="Int32" />
+          <Property Name="quantity_for_order" Type="Double" />
+          <NavigationProperty Name="orders_main" Relationship="Self.FK_orders_main_stock_items" FromRole="stock_items" ToRole="orders_main" />
+          <NavigationProperty Name="productions" Relationship="Self.FK_stock_items_productions" FromRole="stock_items" ToRole="productions" />
+          <NavigationProperty Name="products" Relationship="Self.FK_stock_items_products" FromRole="stock_items" ToRole="products" />
+          <NavigationProperty Name="sizes" Relationship="Self.FK_stock_items_sizes" FromRole="stock_items" ToRole="sizes" />
+        </EntityType>
+        <EntityType Name="subcategorys">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="subcategory" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="products" Relationship="Self.FK_products_subcategorys" FromRole="subcategorys" ToRole="products" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="surname" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="patronymic" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="login" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="id_role" Type="Int32" />
+          <NavigationProperty Name="orders" Relationship="Self.FK_orders_users" FromRole="users" ToRole="orders" />
+          <NavigationProperty Name="roles" Relationship="Self.FK_users_roles" FromRole="users" ToRole="roles" />
+        </EntityType>
+        <Association Name="FK_products_categorys">
+          <End Role="categorys" Type="Self.categorys" Multiplicity="0..1" />
+          <End Role="products" Type="Self.products" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="categorys">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="products">
+              <PropertyRef Name="id_categore" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_orders_main_orders">
+          <End Role="orders" Type="Self.orders" Multiplicity="0..1" />
+          <End Role="orders_main" Type="Self.orders_main" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="orders">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="orders_main">
+              <PropertyRef Name="id_order" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_orders_users">
+          <End Role="users" Type="Self.users" Multiplicity="0..1" />
+          <End Role="orders" Type="Self.orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="orders">
+              <PropertyRef Name="id_user" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_orders_main_stock_items">
+          <End Role="stock_items" Type="Self.stock_items" Multiplicity="0..1" />
+          <End Role="orders_main" Type="Self.orders_main" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="stock_items">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="orders_main">
+              <PropertyRef Name="id_stock_items" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_stock_items_productions">
+          <End Role="productions" Type="Self.productions" Multiplicity="0..1" />
+          <End Role="stock_items" Type="Self.stock_items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="productions">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="stock_items">
+              <PropertyRef Name="id_production" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_products_subcategorys">
+          <End Role="subcategorys" Type="Self.subcategorys" Multiplicity="0..1" />
+          <End Role="products" Type="Self.products" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="subcategorys">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="products">
+              <PropertyRef Name="id_subcategory" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_stock_items_products">
+          <End Role="products" Type="Self.products" Multiplicity="0..1" />
+          <End Role="stock_items" Type="Self.stock_items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="products">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="stock_items">
+              <PropertyRef Name="id_product" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_users_roles">
+          <End Role="roles" Type="Self.roles" Multiplicity="0..1" />
+          <End Role="users" Type="Self.users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="roles">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="users">
+              <PropertyRef Name="id_role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_stock_items_sizes">
+          <End Role="sizes" Type="Self.sizes" Multiplicity="0..1" />
+          <End Role="stock_items" Type="Self.stock_items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sizes">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="stock_items">
+              <PropertyRef Name="id_size" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="demkaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="categorys" EntityType="Self.categorys" />
+          <EntitySet Name="orders" EntityType="Self.orders" />
+          <EntitySet Name="orders_main" EntityType="Self.orders_main" />
+          <EntitySet Name="productions" EntityType="Self.productions" />
+          <EntitySet Name="products" EntityType="Self.products" />
+          <EntitySet Name="roles" EntityType="Self.roles" />
+          <EntitySet Name="sizes" EntityType="Self.sizes" />
+          <EntitySet Name="stock_items" EntityType="Self.stock_items" />
+          <EntitySet Name="subcategorys" EntityType="Self.subcategorys" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="users" EntityType="Self.users" />
+          <AssociationSet Name="FK_products_categorys" Association="Self.FK_products_categorys">
+            <End Role="categorys" EntitySet="categorys" />
+            <End Role="products" EntitySet="products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_orders_main_orders" Association="Self.FK_orders_main_orders">
+            <End Role="orders" EntitySet="orders" />
+            <End Role="orders_main" EntitySet="orders_main" />
+          </AssociationSet>
+          <AssociationSet Name="FK_orders_users" Association="Self.FK_orders_users">
+            <End Role="users" EntitySet="users" />
+            <End Role="orders" EntitySet="orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_orders_main_stock_items" Association="Self.FK_orders_main_stock_items">
+            <End Role="stock_items" EntitySet="stock_items" />
+            <End Role="orders_main" EntitySet="orders_main" />
+          </AssociationSet>
+          <AssociationSet Name="FK_stock_items_productions" Association="Self.FK_stock_items_productions">
+            <End Role="productions" EntitySet="productions" />
+            <End Role="stock_items" EntitySet="stock_items" />
+          </AssociationSet>
+          <AssociationSet Name="FK_products_subcategorys" Association="Self.FK_products_subcategorys">
+            <End Role="subcategorys" EntitySet="subcategorys" />
+            <End Role="products" EntitySet="products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_stock_items_products" Association="Self.FK_stock_items_products">
+            <End Role="products" EntitySet="products" />
+            <End Role="stock_items" EntitySet="stock_items" />
+          </AssociationSet>
+          <AssociationSet Name="FK_users_roles" Association="Self.FK_users_roles">
+            <End Role="roles" EntitySet="roles" />
+            <End Role="users" EntitySet="users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_stock_items_sizes" Association="Self.FK_stock_items_sizes">
+            <End Role="sizes" EntitySet="sizes" />
+            <End Role="stock_items" EntitySet="stock_items" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище demkaModelContainer" CdmEntityContainer="demkaEntities">
+          <EntitySetMapping Name="categorys">
+            <EntityTypeMapping TypeName="demkaModel.categorys">
+              <MappingFragment StoreEntitySet="categorys">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="category" ColumnName="category" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="orders">
+            <EntityTypeMapping TypeName="demkaModel.orders">
+              <MappingFragment StoreEntitySet="orders">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="number_order" ColumnName="number_order" />
+                <ScalarProperty Name="date_order" ColumnName="date_order" />
+                <ScalarProperty Name="id_user" ColumnName="id_user" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="orders_main">
+            <EntityTypeMapping TypeName="demkaModel.orders_main">
+              <MappingFragment StoreEntitySet="orders_main">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="id_order" ColumnName="id_order" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="id_stock_items" ColumnName="id_stock_items" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="productions">
+            <EntityTypeMapping TypeName="demkaModel.productions">
+              <MappingFragment StoreEntitySet="productions">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="production" ColumnName="production" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="products">
+            <EntityTypeMapping TypeName="demkaModel.products">
+              <MappingFragment StoreEntitySet="products">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name_product" ColumnName="name_product" />
+                <ScalarProperty Name="id_categore" ColumnName="id_categore" />
+                <ScalarProperty Name="id_subcategory" ColumnName="id_subcategory" />
+                <ScalarProperty Name="image" ColumnName="image" />
+                <ScalarProperty Name="id_production" ColumnName="id_production" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="composition" ColumnName="composition" />
+                <ScalarProperty Name="price" ColumnName="price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="roles">
+            <EntityTypeMapping TypeName="demkaModel.roles">
+              <MappingFragment StoreEntitySet="roles">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="role" ColumnName="role" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sizes">
+            <EntityTypeMapping TypeName="demkaModel.sizes">
+              <MappingFragment StoreEntitySet="sizes">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="size" ColumnName="size" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="stock_items">
+            <EntityTypeMapping TypeName="demkaModel.stock_items">
+              <MappingFragment StoreEntitySet="stock_items">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="id_product" ColumnName="id_product" />
+                <ScalarProperty Name="id_production" ColumnName="id_production" />
+                <ScalarProperty Name="id_size" ColumnName="id_size" />
+                <ScalarProperty Name="quantity_for_order" ColumnName="quantity_for_order" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="subcategorys">
+            <EntityTypeMapping TypeName="demkaModel.subcategorys">
+              <MappingFragment StoreEntitySet="subcategorys">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="subcategory" ColumnName="subcategory" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="demkaModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="users">
+            <EntityTypeMapping TypeName="demkaModel.users">
+              <MappingFragment StoreEntitySet="users">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="surname" ColumnName="surname" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="patronymic" ColumnName="patronymic" />
+                <ScalarProperty Name="login" ColumnName="login" />
+                <ScalarProperty Name="id_role" ColumnName="id_role" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
