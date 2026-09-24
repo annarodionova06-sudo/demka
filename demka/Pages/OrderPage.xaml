@@ -6,9 +6,56 @@
       xmlns:local="clr-namespace:demka.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="OrderPage">
+      Title="Заказы">
 
-    <Grid>
-        
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="Список заказов" FontSize="24"
+                   FontWeight="Bold" Margin="0,0,0,10"/>
+
+        <ListView x:Name="ListOrders" Grid.Row="1"
+                  MouseDoubleClick="listOrders_MouseDoubleClick">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Border Margin="5" Padding="10" BorderBrush="#70B2AF"
+                            BorderThickness="1" Background="#D2F6E7"
+                            CornerRadius="4">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="250"/>
+                                <ColumnDefinition Width="180"/>
+                                <ColumnDefinition Width="180"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock FontWeight="Bold">
+                                <Run Text="Заказ"/>
+                                <Run Text="{Binding number_order}"/>
+                            </TextBlock>
+
+                            <TextBlock Grid.Column="1">
+                                <Run Text="Клиент: "/>
+                                <Run Text="{Binding users.fio, Mode=OneWay}"/>
+                            </TextBlock>
+                            <TextBlock Grid.Column="2">
+                                <Run Text="Дата: "/>
+                                <Run Text="{Binding price, StringFormat={}{0:N2} ₽}"/>
+                            </TextBlock>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <StackPanel Grid.Row="2" Orientation="Horizontal"
+              HorizontalAlignment="Center" Margin="0,15,0,0">
+            <Button Content="Добавить заказ" Click="Add_Click" Background="#FF70B2AF"/>
+            <Button Content="Редактировать" Click="Edit_CLick" Background="#FF70B2AF"/>
+            <Button Content="Удалить заказ" Background="#ff8080" Click="Del_Click"/>
+            <Button Content="Назад" Click="Back_Click" Background="#FF70B2AF" LostStylusCapture="Back_Click"/>
+        </StackPanel>
     </Grid>
 </Page>
