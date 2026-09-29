@@ -11,4 +11,8 @@ namespace demka.AppData
         public static demkaEntities Model1;
         public static users user; 
     }
+    public partial class users
+    {
+        public string FIO => $"{surname} {name} {patronymic}".Trim();
+    }
 }
