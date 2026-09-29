@@ -13,7 +13,7 @@
         <EntityTypeShape EntityType="demkaModel.roles" Width="1.5" PointX="0.75" PointY="11.875" IsExpanded="true" />
         <EntityTypeShape EntityType="demkaModel.sizes" Width="1.5" PointX="3" PointY="8.375" IsExpanded="true" />
         <EntityTypeShape EntityType="demkaModel.stock_items" Width="1.5" PointX="5.25" PointY="1.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="demkaModel.subcategorys" Width="1.5" PointX="0.75" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="demkaModel.subcategorys" Width="1.5" PointX="0.75" PointY="4.375" IsExpanded="true" />
         <EntityTypeShape EntityType="demkaModel.sysdiagrams" Width="1.5" PointX="5.75" PointY="5.75" IsExpanded="true" />
         <EntityTypeShape EntityType="demkaModel.users" Width="1.5" PointX="3" PointY="11.375" IsExpanded="true" />
         <AssociationConnector Association="demkaModel.FK_products_categorys" ManuallyRouted="false" />
