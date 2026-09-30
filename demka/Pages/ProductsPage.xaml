@@ -48,7 +48,7 @@
                                 </TextBlock>
                                 <TextBlock>
                                     <Run Text="Категория: "/>
-                                    <Run Text="{Binding subcategories.categories.name}"/>
+                                    <Run Text="{Binding subcategories.name}"/>
                                 </TextBlock>
                                 <TextBlock>
                                     <Run Text="Количество: "/>
