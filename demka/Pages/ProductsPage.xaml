@@ -42,7 +42,7 @@
                                    Width="100" Height="100" Stretch="Uniform"/>
                             <StackPanel Grid.Column="1" Margin="10, 0">
                                 <TextBlock FontWeight="Bold">
-                                    <Run Text="{Binding productions.production}"/>
+                                    <Run Text="{Binding productions.name_product}"/>
                                     <Run Text=" | "/>
                                     <Run Text="{Binding name}"/>
                                 </TextBlock>

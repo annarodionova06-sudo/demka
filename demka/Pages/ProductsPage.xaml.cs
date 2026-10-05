@@ -1,4 +1,5 @@
 ﻿using demka.AppData;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -83,36 +84,64 @@ namespace demka.Pages
             AppFrame.mainFrame.Navigate(new ProductDetailsPage(p));
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void Filters_Changed(object sender, TextChangedEventArgs e) => Apply();
 
         private void Del_Click(object sender, RoutedEventArgs e)
         {
+            if (AppConnect.user?.id_role != 1)
+            {
+                MessageBox.Show("Удаление доступно только администратору.",
+                    "Доступ ограниечен", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            if(!(listProduct.SelectedItems is products p)) return;
 
+            if (MessageBox.Show($"Удалить «{p.name_product}»?", "Подтверждение",
+                MessageBoxButton.YesNo, MessageBoxImage.Question)
+                != MessageBoxResult.Yes) return;
+            try
+            {
+                AppConnect.Model1.products.Remove(p);
+                AppConnect.Model1.SaveChanges();
+                Load();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void Cart_Click(object sender, RoutedEventArgs e)
         {
-
+            if (AppConnect.user == null)
+            {
+                MessageBox.Show("Авторизуйте",
+                    "Внимание", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+            AppFrame.mainFrame.Navigate(new CartPage());
         }
 
         private void Orders_Click(object sender, RoutedEventArgs e)
         {
-
+            if(AppConnect.user == null || AppConnect.user.id_role == 3)
+            {
+                MessageBox.Show("Раздел доступен менеджеру и администратору.",
+                    "Доступ ограничен", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
 
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
-
+            AppConnect.user = null;
+            AppFrame.mainFrame.Navigate(new AuthorizationPage());
         }
 
-        private void Filters_Changed(object sender, SelectionChangedEventArgs e)
-        {
+        private void Filters_Changed(object sender, SelectionChangedEventArgs e) => Apply();
 
+        private void Filters_Changed(object sender, TextChangedEventArgs e)
+        {
+            Apply();
         }
     }
 }
